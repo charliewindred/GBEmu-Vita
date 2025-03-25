@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "VitaSDK",
+            "includePath": [
+                "/usr/local/vitasdk/arm-vita-eabi/include",
+                "/usr/local/vitasdk/arm-vita-eabi/include/psp2",
+                "/usr/local/vitasdk/arm-vita-eabi/include/SDL2",
+                "${workspaceFolder}/include"
+            ],
+            "defines": [
+                "__VITA__"
+            ],
+            "compilerPath": "/usr/local/vitasdk/bin/arm-vita-eabi-gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "linux-gcc-arm"
+        }
+    ],
+    "version": 4
+}
