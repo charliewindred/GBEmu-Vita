@@ -35,12 +35,17 @@ typedef struct {
 
 void cpu_init();
 bool cpu_step();
-
+//cpu_context * means it takes a pointer to the cpu_context as an parameter
 typedef void (*IN_PROC)(cpu_context *);
 
+//get processor by instruction type, so we can have a processor function for each instruction
 IN_PROC inst_get_processor(in_type type);
 
+//get the 7th and 4th bit of the flags (F) register
 #define CPU_FLAG_Z BIT(ctx->regs.f, 7)
 #define CPU_FLAG_C BIT(ctx->regs.f, 4)
 
 u16 cpu_read_reg(reg_type rt);
+
+u16 cpu_set_reg(reg_type rt, u16 val);
+

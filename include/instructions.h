@@ -4,8 +4,8 @@
 
 typedef enum {
     AM_IMP,
-    AM_R_D16,
-    AM_R_R,
+    AM_R_D16, //load 16bit from PC into register
+    AM_R_R, //register to register
     AM_MR_R,
     AM_R,
     AM_R_D8,
