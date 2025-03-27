@@ -26,7 +26,7 @@ static u16 read_PC() {
     return lo | (hi << 8);
 }
 
-static void fetch_data() {
+void fetch_data() {
     ctx.mem_dest = 0;
     ctx.dest_is_mem = false;
     

@@ -41,7 +41,18 @@ typedef void (*IN_PROC)(cpu_context *);
 //get processor by instruction type, so we can have a processor function for each instruction
 IN_PROC inst_get_processor(in_type type);
 
-//get the 7th and 4th bit of the flags (F) register
+/*
+Flag register (F) bits:
+
+7 	6 	5 	4 	3 	2 	1 	0
+Z 	N 	H 	C 	0 	0 	0 	0
+
+Z - Zero Flag
+N - Subtract Flag
+H - Half Carry Flag
+C - Carry Flag
+0 - Not used, always zero
+*/
 #define CPU_FLAG_Z BIT(ctx->regs.f, 7)
 #define CPU_FLAG_C BIT(ctx->regs.f, 4)
 

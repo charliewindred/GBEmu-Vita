@@ -1,6 +1,7 @@
 #include <instructions.h>
 #include <cpu.h>
 
+// https://pastraiser.com/cpu/gameboy/gameboy_opcodes.html
 instruction instructions[0x100] = {
     [0x00] = {IN_NOP, AM_IMP},
     [0x01] = {IN_LD, AM_R_D16, RT_BC},
@@ -9,11 +10,15 @@ instruction instructions[0x100] = {
     [0x04] = {IN_INC, AM_R, RT_B},
     [0x05] = {IN_DEC, AM_R, RT_B},
     [0x06] = {IN_LD, AM_R_D8, RT_B},
-    [0x07] = {IN_RLCA},
-    [0x08] = {IN_LD, AM_R_A16, RT_SP},
-    // [0x09] = {IN_ADD, AM},
+    [0x07] = {IN_RLCA, RT_A}, //Rotate left carry A
+    [0x08] = {IN_LD, AM_R_A16, RT_NONE, RT_SP},
+    [0x09] = {IN_ADD, AM_R_R, RT_HL, RT_BC},
+    [0x0A] = {IN_LD, AM_R_R, RT_A, RT_BC},
+    [0x0B] = {IN_DEC, AM_R, RT_BC},
+    [0x0C] = {IN_INC, AM_R, RT_C},
+    [0x0D] = {IN_DEC, AM_R, RT_C},
     [0x0E] = {IN_LD, AM_R_D8, RT_C},
-
+    [0x0F] = {IN_RRCA, RT_A}, //Rotate right carry A
     [0xAF] = {IN_XOR, AM_R, RT_A},
 
     [0xC3] = {IN_JP, AM_D16},

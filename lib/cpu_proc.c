@@ -5,8 +5,8 @@
 //processes CPU instructions...
 
 static void proc_none(cpu_context *ctx) {
-    log_write("INVALID INSTRUCTION!\n");
-    exit(-7);
+    // log_write("INVALID INSTRUCTION!\n");
+    // exit(-7);
 }
 
 static void proc_nop(cpu_context *ctx) {
@@ -18,7 +18,14 @@ static void proc_di(cpu_context *ctx) {
 }
 
 static void proc_ld(cpu_context *ctx) {
-    //TODO...
+    
+}
+
+static void proc_inc(cpu_context *ctx) {
+    //TODO: B and C remain 0 after INC 03, C should be 0001
+    u8 reg = cpu_read_reg(ctx->cur_inst->reg_1);
+    cpu_set_reg(ctx->cur_inst->reg_1, reg++);
+    emu_cycles(1);
 }
 
 void cpu_set_flags(cpu_context *ctx, char z, char n, char h, char c) {
@@ -73,7 +80,8 @@ static IN_PROC processors[] = {
     [IN_LD] = proc_ld,
     [IN_JP] = proc_jp,
     [IN_DI] = proc_di,
-    [IN_XOR] = proc_xor
+    [IN_XOR] = proc_xor,
+    [IN_INC] = proc_inc
 };
 
 IN_PROC inst_get_processor(in_type type) {

@@ -1,3 +1,5 @@
+//https://gbdev.io/pandocs/The_Cartridge_Header.html
+
 #include <cart.h>
 #include <log.h>
 #include <psp2/io/fcntl.h>
@@ -185,6 +187,10 @@ bool cart_load() {
     log_write("\t LIC Code : %2.2X (%s)\n", ctx.header->lic_code, cart_lic_name());
     log_write("\t ROM Vers : %2.2X\n", ctx.header->version);
 
+    /*
+    014D — Header checksum
+    This byte contains an 8-bit checksum computed from the cartridge header bytes $0134–014C.
+    */
     u16 x = 0;
     for (u16 i=0x0134; i<=0x014C; i++) {
         x = x - ctx.rom_data[i] - 1;

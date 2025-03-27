@@ -15,6 +15,8 @@ static void fetch_instruction() {
     ctx.cur_inst = instruction_by_opcode(ctx.cur_opcode);
 }
 
+void fetch_data();
+
 static void execute() {
     IN_PROC proc = inst_get_processor(ctx.cur_inst->type);
 
