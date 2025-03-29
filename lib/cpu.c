@@ -5,6 +5,17 @@
 
 cpu_context ctx = {0};
 
+/*
+    After the BIOS finishes execution, the registers are:
+    Register	Initial Value
+    A	        0x01
+    F	        0xB0
+    BC	        0x0013
+    DE	        0x00D8
+    HL	        0x014D
+    SP	        0xFFFE
+    PC	        0x0100
+*/
 void cpu_init() {
     ctx.regs.pc = 0x100;
     ctx.regs.a = 0x01;

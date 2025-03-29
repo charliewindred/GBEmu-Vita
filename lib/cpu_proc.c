@@ -38,13 +38,11 @@ static void proc_ld(cpu_context *ctx) {
 }
 
 static void proc_inc(cpu_context *ctx) {
-    u16 val = cpu_read_reg(ctx->cur_inst->reg_1) + 1;
-    log_write("INC %2x", ctx->cur_inst->reg_1);
+    cpu_set_reg(ctx->cur_inst->reg_1, cpu_read_reg(ctx->cur_inst->reg_1) + 1);
 }
 
 static void proc_dec(cpu_context *ctx) {
-    u16 val = cpu_read_reg(ctx->cur_inst->reg_1) - 1;
-    log_write("DEC %2x", ctx->cur_inst->reg_1);
+    cpu_set_reg(ctx->cur_inst->reg_1, cpu_read_reg(ctx->cur_inst->reg_1) - 1);
 }
 
 
@@ -101,7 +99,8 @@ static IN_PROC processors[] = {
     [IN_JP] = proc_jp,
     [IN_DI] = proc_di,
     [IN_XOR] = proc_xor,
-    [IN_INC] = proc_inc
+    [IN_INC] = proc_inc,
+    [IN_DEC] = proc_dec
 };
 
 IN_PROC inst_get_processor(in_type type) {
