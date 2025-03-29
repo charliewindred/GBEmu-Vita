@@ -1,8 +1,7 @@
 #include <cpu.h>
 #include <emu.h>
 #include <log.h>
-
-//processes CPU instructions...
+#include <bus.h>
 
 static void proc_none(cpu_context *ctx) {
     // log_write("INVALID INSTRUCTION!\n");
@@ -18,15 +17,36 @@ static void proc_di(cpu_context *ctx) {
 }
 
 static void proc_ld(cpu_context *ctx) {
-    
+    //if the instruction is to load from a register to a memory address
+    if(ctx->dest_is_mem){
+        //if 16 bit register
+        if(ctx->cur_inst->reg_2 >= RT_AF){
+            //writing to an extra address, so its an extra cycle
+            emu_cycles(1);
+            bus_write16(ctx->mem_dest, ctx->fetched_data);
+        } else {
+            bus_write(ctx->mem_dest, ctx->fetched_data);
+        }
+
+        //TODO: special case for loading reg to reg - LD HL,SP+r8
+
+        emu_cycles(1);
+    }
+
+    //if vice versa
+    cpu_set_reg(ctx->cur_inst->reg_1, ctx->fetched_data);
 }
 
 static void proc_inc(cpu_context *ctx) {
-    //TODO: B and C remain 0 after INC 03, C should be 0001
-    u8 reg = cpu_read_reg(ctx->cur_inst->reg_1);
-    cpu_set_reg(ctx->cur_inst->reg_1, reg++);
-    emu_cycles(1);
+    u16 val = cpu_read_reg(ctx->cur_inst->reg_1) + 1;
+    log_write("INC %2x", ctx->cur_inst->reg_1);
 }
+
+static void proc_dec(cpu_context *ctx) {
+    u16 val = cpu_read_reg(ctx->cur_inst->reg_1) - 1;
+    log_write("DEC %2x", ctx->cur_inst->reg_1);
+}
+
 
 void cpu_set_flags(cpu_context *ctx, char z, char n, char h, char c) {
     if (z != -1) {

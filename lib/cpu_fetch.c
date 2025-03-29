@@ -6,7 +6,8 @@ extern cpu_context ctx;
 
 /*
     Read 16 bits from the program counter (PC) register.
-    Takes low and high 8 bits in PC and joins them together using bit shift and OR.
+    Little Endian format so the low byte comes first in the instruction.
+    Can only read 8 bits at a time, so lo and hi are joined together.
 
     Example:
     hi = 0000 0000 0001 0010  (0x0012)
@@ -16,7 +17,7 @@ extern cpu_context ctx;
     0000 0000 0011 0100   (lo |) Low bits in hi are 0's so they get replaced by the 1's in lo.
     0001 0010 0011 0100   Result
 */
-static u16 read_PC() {
+static u16 read_PC16() {
     u16 lo = bus_read(ctx.regs.pc);
     emu_cycles(1);
 
@@ -55,7 +56,7 @@ void fetch_data() {
 
         case AM_R_D16:
         case AM_D16: {
-            ctx.fetched_data = read_PC();
+            ctx.fetched_data = read_PC16();
             return;
         } 
 
@@ -140,7 +141,7 @@ void fetch_data() {
 
         case AM_A16_R:
         case AM_D16_R:{
-            ctx.mem_dest = read_PC();
+            ctx.mem_dest = read_PC16();
             ctx.dest_is_mem = true;
             ctx.regs.pc += 2;  
             ctx.fetched_data = cpu_read_reg(ctx.cur_inst->reg_2);
@@ -163,7 +164,7 @@ void fetch_data() {
             return;
 
         case AM_R_A16: {
-            u16 addr = read_PC();
+            u16 addr = read_PC16();
             ctx.regs.pc += 2;  
             ctx.fetched_data = bus_read(addr);
             emu_cycles(1);
