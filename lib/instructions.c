@@ -57,6 +57,16 @@ instruction instructions[0x100] = {
     [0x35] = {IN_DEC, AM_R, RT_HL},
     [0x36] = {IN_LD, AM_R_D8, RT_HL},
 
+    [0x90] = {IN_SUB, AM_R_R, RT_A, RT_B},
+    [0x91] = {IN_SUB, AM_R_R, RT_A, RT_C},
+    [0x92] = {IN_SUB, AM_R_R, RT_A, RT_D},
+    [0x93] = {IN_SUB, AM_R_R, RT_A, RT_E},
+    [0x94] = {IN_SUB, AM_R_R, RT_A, RT_H},
+    [0x95] = {IN_SUB, AM_R_R, RT_A, RT_L},
+    [0x96] = {IN_SUB, AM_R_R, RT_A, RT_HL},
+    [0x97] = {IN_SUB, AM_R_R, RT_A, RT_A}, //set A to zero. quickest way to clear A and set Z
+    [0xD6] = {IN_SUB, AM_R_D8, RT_A},
+    [0x76] = {IN_HALT},
 
 
     [0xAF] = {IN_XOR, AM_R, RT_A},
